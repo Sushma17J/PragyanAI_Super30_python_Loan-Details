@@ -1,4 +1,16 @@
-# loan_data.py
+# ==========================================================
+# SMARTLOAN INDIA - LOAN DATA
+# ==========================================================
+# IMPORTANT:
+# Values below are intended for comparison/educational use.
+# Bank policies, rates, eligibility and limits can change.
+# Always verify the latest terms on the official bank website.
+# ==========================================================
+
+
+# ==========================================================
+# BANK LIST
+# ==========================================================
 
 BANKS = [
     "SBI",
@@ -16,40 +28,99 @@ BANKS = [
     "IDFC FIRST Bank",
     "Federal Bank",
     "IndusInd Bank",
-    "YES Bank"
+    "YES Bank",
 ]
 
 
+# ==========================================================
+# OFFICIAL BANK WEBSITES
+# ==========================================================
+
 BANK_WEBSITES = {
-    "SBI": "https://sbi.co.in/",
-    "HDFC Bank": "https://www.hdfcbank.com/",
-    "ICICI Bank": "https://www.icicibank.com/",
-    "Axis Bank": "https://www.axisbank.com/",
-    "Kotak Mahindra Bank": "https://www.kotak.com/",
-    "Bank of Baroda": "https://www.bankofbaroda.in/",
-    "Punjab National Bank": "https://www.pnbindia.in/",
-    "Canara Bank": "https://canarabank.com/",
-    "Union Bank of India": "https://www.unionbankofindia.co.in/",
-    "Indian Bank": "https://www.indianbank.in/",
-    "Bank of India": "https://bankofindia.co.in/",
-    "Bank of Maharashtra": "https://bankofmaharashtra.in/",
-    "IDFC FIRST Bank": "https://www.idfcfirstbank.com/",
-    "Federal Bank": "https://www.federalbank.co.in/",
-    "IndusInd Bank": "https://www.indusind.com/",
-    "YES Bank": "https://www.yesbank.in/"
+
+    "SBI":
+        "https://sbi.bank.in/",
+
+    "HDFC Bank":
+        "https://www.hdfc.bank.in/",
+
+    "ICICI Bank":
+        "https://www.icici.bank.in/",
+
+    "Axis Bank":
+        "https://www.axisbank.com/",
+
+    "Kotak Mahindra Bank":
+        "https://www.kotak.bank.in/",
+
+    "Bank of Baroda":
+        "https://www.bankofbaroda.in/",
+
+    "Punjab National Bank":
+        "https://www.pnbindia.in/",
+
+    "Canara Bank":
+        "https://www.canarabank.com/",
+
+    "Union Bank of India":
+        "https://www.unionbankofindia.bank.in/",
+
+    "Indian Bank":
+        "https://www.indianbank.in/",
+
+    "Bank of India":
+        "https://bankofindia.co.in/",
+
+    "Bank of Maharashtra":
+        "https://bankofmaharashtra.in/",
+
+    "IDFC FIRST Bank":
+        "https://www.idfcfirstbank.com/",
+
+    "Federal Bank":
+        "https://www.federalbank.co.in/",
+
+    "IndusInd Bank":
+        "https://www.indusind.com/",
+
+    "YES Bank":
+        "https://www.yesbank.in/",
 }
+
+
+# ==========================================================
+# HELPER
+# ==========================================================
+
+def product(
+    available=True,
+    min_amount=None,
+    max_amount=None,
+    interest_rate=None,
+    rate_text=None,
+    max_tenure=None,
+    amount_text=None,
+    eligibility_text=None,
+    source="Official bank website",
+    source_url=None
+):
+    return {
+        "available": available,
+        "min_amount": min_amount,
+        "max_amount": max_amount,
+        "interest_rate": interest_rate,
+        "rate_text": rate_text,
+        "max_tenure": max_tenure,
+        "amount_text": amount_text,
+        "eligibility_text": eligibility_text,
+        "source": source,
+        "source_url": source_url,
+    }
 
 
 # ==========================================================
 # LOAN DATA
 # ==========================================================
-#
-# None means:
-# We have not added a verified value for that field.
-#
-# Do NOT treat None as zero.
-# ==========================================================
-
 
 LOAN_DATA = {
 
@@ -59,45 +130,95 @@ LOAN_DATA = {
 
     "Personal Loan": {
 
-        "SBI": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": 3500000,
-            "interest_rate": None,
-            "max_tenure": 7,
-            "source": "SBI Personal Loan",
-            "source_url": "https://sbi.co.in/web/personal-banking/loans/personal-loans/sbi-personal-loan"
-        },
+        "SBI": product(
+            max_amount=3500000,
+            amount_text="Up to ₹35 lakh",
+            source_url=BANK_WEBSITES["SBI"]
+        ),
 
-        "HDFC Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": 4000000,
-            "interest_rate": None,
-            "max_tenure": 7,
-            "source": "HDFC Bank Personal Loan",
-            "source_url": "https://www.hdfcbank.com/"
-        },
+        "HDFC Bank": product(
+            min_amount=25000,
+            max_amount=4000000,
+            amount_text="₹25,000 – ₹40 lakh",
+            rate_text="From 9.99%",
+            source_url=BANK_WEBSITES["HDFC Bank"]
+        ),
 
-        "ICICI Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": 5000000,
-            "interest_rate": 10.85,
-            "max_tenure": 6,
-            "source": "ICICI Bank Personal Loan",
-            "source_url": "https://www.icicibank.com/Personal-Banking/loans/loans.page"
-        },
+        "ICICI Bank": product(
+            min_amount=50000,
+            max_amount=5000000,
+            interest_rate=10.60,
+            rate_text="10.60% – 16.50%",
+            max_tenure=6,
+            amount_text="₹50,000 – ₹50 lakh",
+            source_url=BANK_WEBSITES["ICICI Bank"]
+        ),
 
-        "Axis Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": 4000000,
-            "interest_rate": None,
-            "max_tenure": 7,
-            "source": "Axis Bank Personal Loan",
-            "source_url": "https://www.axisbank.com/retail/loans/personal-loan"
-        }
+        "Axis Bank": product(
+            max_amount=4000000,
+            amount_text="Up to ₹40 lakh",
+            source_url=BANK_WEBSITES["Axis Bank"]
+        ),
+
+        "Kotak Mahindra Bank": product(
+            amount_text="Amount depends on eligibility",
+            source_url=BANK_WEBSITES["Kotak Mahindra Bank"]
+        ),
+
+        "Bank of Baroda": product(
+            amount_text="Amount depends on eligibility",
+            source_url=BANK_WEBSITES["Bank of Baroda"]
+        ),
+
+        "Punjab National Bank": product(
+            amount_text="Scheme / eligibility based",
+            source_url=BANK_WEBSITES["Punjab National Bank"]
+        ),
+
+        "Canara Bank": product(
+            amount_text="Scheme / eligibility based",
+            source_url=BANK_WEBSITES["Canara Bank"]
+        ),
+
+        "Union Bank of India": product(
+            amount_text="Scheme / eligibility based",
+            source_url=BANK_WEBSITES["Union Bank of India"]
+        ),
+
+        "Indian Bank": product(
+            amount_text="Scheme / eligibility based",
+            source_url=BANK_WEBSITES["Indian Bank"]
+        ),
+
+        "Bank of India": product(
+            amount_text="Scheme / eligibility based",
+            source_url=BANK_WEBSITES["Bank of India"]
+        ),
+
+        "Bank of Maharashtra": product(
+            amount_text="Scheme / eligibility based",
+            source_url=BANK_WEBSITES["Bank of Maharashtra"]
+        ),
+
+        "IDFC FIRST Bank": product(
+            amount_text="Amount depends on eligibility",
+            source_url=BANK_WEBSITES["IDFC FIRST Bank"]
+        ),
+
+        "Federal Bank": product(
+            amount_text="Amount depends on eligibility",
+            source_url=BANK_WEBSITES["Federal Bank"]
+        ),
+
+        "IndusInd Bank": product(
+            amount_text="Amount depends on eligibility",
+            source_url=BANK_WEBSITES["IndusInd Bank"]
+        ),
+
+        "YES Bank": product(
+            amount_text="Amount depends on eligibility",
+            source_url=BANK_WEBSITES["YES Bank"]
+        ),
     },
 
 
@@ -107,35 +228,89 @@ LOAN_DATA = {
 
     "Education Loan": {
 
-        "SBI": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": 5000000,
-            "interest_rate": None,
-            "max_tenure": 15,
-            "source": "SBI Student Loan Scheme",
-            "source_url": "https://sbi.bank.in/web/personal-banking/loans/education-loans/student-loan-scheme"
-        },
+        "SBI": product(
+            max_amount=5000000,
+            rate_text="Scheme dependent",
+            amount_text="Up to ₹50 lakh without security for selected premier institutes; other schemes are need-based",
+            source_url="https://sbi.bank.in/web/personal-banking/loans/education-loans"
+        ),
 
-        "HDFC Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": 15000000,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "HDFC Bank Education Loan",
-            "source_url": "https://www.hdfc.bank.in/education-loan"
-        },
+        "HDFC Bank": product(
+            max_amount=15000000,
+            amount_text="Up to ₹1.5 crore",
+            source_url=BANK_WEBSITES["HDFC Bank"]
+        ),
 
-        "Axis Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": 15000000,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "Axis Bank Education Loan",
-            "source_url": "https://www.axis.bank.in/loans/education-loan"
-        }
+        "ICICI Bank": product(
+            amount_text="Up to ₹2 crore in India / up to ₹3 crore abroad, subject to eligibility",
+            source_url=BANK_WEBSITES["ICICI Bank"]
+        ),
+
+        "Axis Bank": product(
+            max_amount=15000000,
+            amount_text="Up to ₹1.5 crore",
+            source_url=BANK_WEBSITES["Axis Bank"]
+        ),
+
+        "Kotak Mahindra Bank": product(
+            amount_text="Scheme / eligibility based",
+            source_url=BANK_WEBSITES["Kotak Mahindra Bank"]
+        ),
+
+        "Bank of Baroda": product(
+            amount_text="Scheme / course / institution based",
+            source_url=BANK_WEBSITES["Bank of Baroda"]
+        ),
+
+        "Punjab National Bank": product(
+            amount_text="Scheme / course / institution based",
+            source_url=BANK_WEBSITES["Punjab National Bank"]
+        ),
+
+        "Canara Bank": product(
+            amount_text="Scheme / course / institution based",
+            source_url=BANK_WEBSITES["Canara Bank"]
+        ),
+
+        "Union Bank of India": product(
+            amount_text="Scheme / course / institution based",
+            source_url=BANK_WEBSITES["Union Bank of India"]
+        ),
+
+        "Indian Bank": product(
+            amount_text="Scheme / course / institution based",
+            source_url=BANK_WEBSITES["Indian Bank"]
+        ),
+
+        "Bank of India": product(
+            amount_text="Scheme / course / institution based",
+            source_url=BANK_WEBSITES["Bank of India"]
+        ),
+
+        "Bank of Maharashtra": product(
+            amount_text="Scheme / course / institution based",
+            source_url=BANK_WEBSITES["Bank of Maharashtra"]
+        ),
+
+        "IDFC FIRST Bank": product(
+            amount_text="Course / institution / eligibility based",
+            source_url=BANK_WEBSITES["IDFC FIRST Bank"]
+        ),
+
+        "Federal Bank": product(
+            amount_text="Course / institution / eligibility based",
+            source_url=BANK_WEBSITES["Federal Bank"]
+        ),
+
+        "IndusInd Bank": product(
+            amount_text="Course / institution / eligibility based",
+            source_url=BANK_WEBSITES["IndusInd Bank"]
+        ),
+
+        "YES Bank": product(
+            amount_text="Course / institution / eligibility based",
+            source_url=BANK_WEBSITES["YES Bank"]
+        ),
     },
 
 
@@ -145,25 +320,103 @@ LOAN_DATA = {
 
     "Home Loan": {
 
-        "Axis Bank": {
-            "available": True,
-            "min_amount": 100000,
-            "max_amount": 50000000,
-            "interest_rate": None,
-            "max_tenure": 30,
-            "source": "Axis Bank Home Loan",
-            "source_url": "https://www.axisbank.com/retail/loans/home-loan"
-        },
+        "SBI": product(
+            amount_text="Amount depends on property, income and eligibility",
+            max_tenure=30,
+            source_url=BANK_WEBSITES["SBI"]
+        ),
 
-        "ICICI Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": 50000000,
-            "interest_rate": None,
-            "max_tenure": 30,
-            "source": "ICICI Bank Home Loan",
-            "source_url": "https://www.icicibank.com/Personal-Banking/loans/home-loan/index.page"
-        }
+        "HDFC Bank": product(
+            amount_text="Amount depends on property value and eligibility",
+            max_tenure=30,
+            source_url=BANK_WEBSITES["HDFC Bank"]
+        ),
+
+        "ICICI Bank": product(
+            max_amount=50000000,
+            max_tenure=30,
+            amount_text="Up to ₹5 crore",
+            source_url=BANK_WEBSITES["ICICI Bank"]
+        ),
+
+        "Axis Bank": product(
+            max_amount=50000000,
+            max_tenure=30,
+            amount_text="Up to ₹5 crore",
+            source_url=BANK_WEBSITES["Axis Bank"]
+        ),
+
+        "Kotak Mahindra Bank": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["Kotak Mahindra Bank"]
+        ),
+
+        "Bank of Baroda": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["Bank of Baroda"]
+        ),
+
+        "Punjab National Bank": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["Punjab National Bank"]
+        ),
+
+        "Canara Bank": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["Canara Bank"]
+        ),
+
+        "Union Bank of India": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["Union Bank of India"]
+        ),
+
+        "Indian Bank": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["Indian Bank"]
+        ),
+
+        "Bank of India": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["Bank of India"]
+        ),
+
+        "Bank of Maharashtra": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["Bank of Maharashtra"]
+        ),
+
+        "IDFC FIRST Bank": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["IDFC FIRST Bank"]
+        ),
+
+        "Federal Bank": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["Federal Bank"]
+        ),
+
+        "IndusInd Bank": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["IndusInd Bank"]
+        ),
+
+        "YES Bank": product(
+            max_tenure=30,
+            amount_text="Property / eligibility based",
+            source_url=BANK_WEBSITES["YES Bank"]
+        ),
     },
 
 
@@ -173,35 +426,106 @@ LOAN_DATA = {
 
     "Car Loan": {
 
-        "SBI": {
-            "available": True,
-            "min_amount": 100000,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": 7,
-            "source": "SBI New Car Loan",
-            "source_url": "https://sbi.co.in/web/personal-banking/loans/auto-loans/sbi-new-car-loan-scheme"
-        },
+        "SBI": product(
+            min_amount=100000,
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["SBI"]
+        ),
 
-        "ICICI Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": 10000000,
-            "interest_rate": 9.10,
-            "max_tenure": 7,
-            "source": "ICICI Bank Car Loan",
-            "source_url": "https://www.icicibank.com/Personal-Banking/loans/car-loan/index.page"
-        },
+        "HDFC Bank": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["HDFC Bank"]
+        ),
 
-        "Axis Bank": {
-            "available": True,
-            "min_amount": 100000,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": 7,
-            "source": "Axis Bank Car Loan",
-            "source_url": "https://www.axisbank.com/retail/loans/car-loan/new-car-loan"
-        }
+        "ICICI Bank": product(
+            max_amount=10000000,
+            interest_rate=9.10,
+            max_tenure=7,
+            amount_text="Up to ₹1 crore",
+            rate_text="Starting 9.10%",
+            source_url="https://www.icici.bank.in/personal-banking/loans/car-loan"
+        ),
+
+        "Axis Bank": product(
+            min_amount=100000,
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Axis Bank"]
+        ),
+
+        "Kotak Mahindra Bank": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Kotak Mahindra Bank"]
+        ),
+
+        "Bank of Baroda": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Bank of Baroda"]
+        ),
+
+        "Punjab National Bank": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Punjab National Bank"]
+        ),
+
+        "Canara Bank": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Canara Bank"]
+        ),
+
+        "Union Bank of India": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Union Bank of India"]
+        ),
+
+        "Indian Bank": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Indian Bank"]
+        ),
+
+        "Bank of India": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Bank of India"]
+        ),
+
+        "Bank of Maharashtra": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Bank of Maharashtra"]
+        ),
+
+        "IDFC FIRST Bank": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["IDFC FIRST Bank"]
+        ),
+
+        "Federal Bank": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Federal Bank"]
+        ),
+
+        "IndusInd Bank": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["IndusInd Bank"]
+        ),
+
+        "YES Bank": product(
+            max_tenure=7,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["YES Bank"]
+        ),
     },
 
 
@@ -211,45 +535,91 @@ LOAN_DATA = {
 
     "Two-Wheeler Loan": {
 
-        "SBI": {
-            "available": True,
-            "min_amount": 50000,
-            "max_amount": 300000,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "SBI Two Wheeler Loan",
-            "source_url": "https://sbi.co.in/web/personal-banking/loans/auto-loans/sbi-two-wheeler-loan-scheme"
-        },
+        "SBI": product(
+            min_amount=50000,
+            max_amount=300000,
+            amount_text="₹50,000 – ₹3 lakh",
+            source_url=BANK_WEBSITES["SBI"]
+        ),
 
-        "ICICI Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": 10.25,
-            "max_tenure": 3,
-            "source": "ICICI Bank Two-Wheeler Loan",
-            "source_url": "https://www.icicibank.com/personal-banking/loans/two-wheeler-loan/review"
-        },
+        "HDFC Bank": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["HDFC Bank"]
+        ),
 
-        "HDFC Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "HDFC Bank Two Wheeler Loan",
-            "source_url": "https://www.hdfcbank.com/personal/borrow/popular-loans/two-wheeler-loan"
-        },
+        "ICICI Bank": product(
+            max_amount=3000000,
+            max_tenure=3,
+            amount_text="Up to ₹30 lakh",
+            rate_text="Product dependent",
+            source_url="https://www.icici.bank.in/personal-banking/loans"
+        ),
 
-        "Axis Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": 4,
-            "source": "Axis Bank Two Wheeler Loan",
-            "source_url": "https://www.axisbank.com/"
-        }
+        "Axis Bank": product(
+            max_tenure=4,
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Axis Bank"]
+        ),
+
+        "Kotak Mahindra Bank": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Kotak Mahindra Bank"]
+        ),
+
+        "Bank of Baroda": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Bank of Baroda"]
+        ),
+
+        "Punjab National Bank": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Punjab National Bank"]
+        ),
+
+        "Canara Bank": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Canara Bank"]
+        ),
+
+        "Union Bank of India": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Union Bank of India"]
+        ),
+
+        "Indian Bank": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Indian Bank"]
+        ),
+
+        "Bank of India": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Bank of India"]
+        ),
+
+        "Bank of Maharashtra": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Bank of Maharashtra"]
+        ),
+
+        "IDFC FIRST Bank": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["IDFC FIRST Bank"]
+        ),
+
+        "Federal Bank": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["Federal Bank"]
+        ),
+
+        "IndusInd Bank": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["IndusInd Bank"]
+        ),
+
+        "YES Bank": product(
+            amount_text="Vehicle / eligibility based",
+            source_url=BANK_WEBSITES["YES Bank"]
+        ),
     },
 
 
@@ -259,25 +629,95 @@ LOAN_DATA = {
 
     "Gold Loan": {
 
-        "ICICI Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": 20000000,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "ICICI Bank Gold Loan",
-            "source_url": "https://www.icicibank.com/personal-banking/loans/gold-loan/faqs"
-        },
+        "SBI": product(
+            min_amount=20000,
+            max_amount=10000000,
+            max_tenure=3,
+            amount_text="₹20,000 – ₹1 crore",
+            source_url="https://sbi.bank.in/web/personal-banking/loans/gold-loan/personal-gold-loans"
+        ),
 
-        "Axis Bank": {
-            "available": True,
-            "min_amount": 50001,
-            "max_amount": 4000000,
-            "interest_rate": None,
-            "max_tenure": 3,
-            "source": "Axis Bank Gold Loan",
-            "source_url": "https://www.axisbank.com/loans/gold-loan"
-        }
+        "HDFC Bank": product(
+            amount_text="Gold value / eligibility based",
+            source_url=BANK_WEBSITES["HDFC Bank"]
+        ),
+
+        "ICICI Bank": product(
+            min_amount=200000,
+            max_amount=20000000,
+            max_tenure=1,
+            amount_text="₹2 lakh/₹3 lakh minimum depending on location/customer; up to ₹2 crore",
+            rate_text="8.55% – 16.50%",
+            source_url="https://www.icici.bank.in/personal-banking/loans/gold-loan"
+        ),
+
+        "Axis Bank": product(
+            min_amount=50001,
+            max_amount=4000000,
+            max_tenure=3,
+            amount_text="₹50,001 – ₹40 lakh",
+            source_url=BANK_WEBSITES["Axis Bank"]
+        ),
+
+        "Kotak Mahindra Bank": product(
+            amount_text="Gold value / eligibility based",
+            source_url=BANK_WEBSITES["Kotak Mahindra Bank"]
+        ),
+
+        "Bank of Baroda": product(
+            amount_text="Gold value / scheme based",
+            source_url=BANK_WEBSITES["Bank of Baroda"]
+        ),
+
+        "Punjab National Bank": product(
+            amount_text="Gold value / scheme based",
+            source_url=BANK_WEBSITES["Punjab National Bank"]
+        ),
+
+        "Canara Bank": product(
+            amount_text="Gold value / scheme based",
+            source_url=BANK_WEBSITES["Canara Bank"]
+        ),
+
+        "Union Bank of India": product(
+            amount_text="Gold value / scheme based",
+            source_url=BANK_WEBSITES["Union Bank of India"]
+        ),
+
+        "Indian Bank": product(
+            amount_text="Gold value / scheme based",
+            source_url=BANK_WEBSITES["Indian Bank"]
+        ),
+
+        "Bank of India": product(
+            amount_text="Gold value / scheme based",
+            source_url=BANK_WEBSITES["Bank of India"]
+        ),
+
+        "Bank of Maharashtra": product(
+            amount_text="Gold value / scheme based",
+            source_url=BANK_WEBSITES["Bank of Maharashtra"]
+        ),
+
+        "IDFC FIRST Bank": product(
+            amount_text="Gold value / eligibility based",
+            source_url=BANK_WEBSITES["IDFC FIRST Bank"]
+        ),
+
+        "Federal Bank": product(
+            amount_text="Gold value / eligibility based",
+            source_url=BANK_WEBSITES["Federal Bank"]
+        ),
+
+        "IndusInd Bank": product(
+            amount_text="Gold value / eligibility based",
+            source_url=BANK_WEBSITES["IndusInd Bank"]
+        ),
+
+        "YES Bank": product(
+            amount_text="Gold value / eligibility based",
+            source_url=BANK_WEBSITES["YES Bank"]
+        ),
     },
 
 
@@ -287,45 +727,85 @@ LOAN_DATA = {
 
     "Business Loan": {
 
-        "SBI": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "SBI Business Loans",
-            "source_url": "https://sbi.co.in/"
-        },
+        "SBI": product(
+            amount_text="Scheme / business eligibility based",
+            source_url=BANK_WEBSITES["SBI"]
+        ),
 
-        "HDFC Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "HDFC Bank Business Loans",
-            "source_url": "https://www.hdfcbank.com/"
-        },
+        "HDFC Bank": product(
+            amount_text="Business profile / eligibility based",
+            source_url=BANK_WEBSITES["HDFC Bank"]
+        ),
 
-        "ICICI Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "ICICI Bank Business Loans",
-            "source_url": "https://www.icicibank.com/"
-        },
+        "ICICI Bank": product(
+            amount_text="Business profile / eligibility based",
+            source_url=BANK_WEBSITES["ICICI Bank"]
+        ),
 
-        "Axis Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "Axis Bank Business Loans",
-            "source_url": "https://www.axisbank.com/"
-        }
+        "Axis Bank": product(
+            amount_text="Business profile / eligibility based",
+            source_url=BANK_WEBSITES["Axis Bank"]
+        ),
+
+        "Kotak Mahindra Bank": product(
+            amount_text="Business profile / eligibility based",
+            source_url=BANK_WEBSITES["Kotak Mahindra Bank"]
+        ),
+
+        "Bank of Baroda": product(
+            amount_text="Scheme / business eligibility based",
+            source_url=BANK_WEBSITES["Bank of Baroda"]
+        ),
+
+        "Punjab National Bank": product(
+            amount_text="Scheme / business eligibility based",
+            source_url=BANK_WEBSITES["Punjab National Bank"]
+        ),
+
+        "Canara Bank": product(
+            amount_text="Scheme / business eligibility based",
+            source_url=BANK_WEBSITES["Canara Bank"]
+        ),
+
+        "Union Bank of India": product(
+            amount_text="Scheme / business eligibility based",
+            source_url=BANK_WEBSITES["Union Bank of India"]
+        ),
+
+        "Indian Bank": product(
+            amount_text="Scheme / business eligibility based",
+            source_url=BANK_WEBSITES["Indian Bank"]
+        ),
+
+        "Bank of India": product(
+            amount_text="Scheme / business eligibility based",
+            source_url=BANK_WEBSITES["Bank of India"]
+        ),
+
+        "Bank of Maharashtra": product(
+            amount_text="Scheme / business eligibility based",
+            source_url=BANK_WEBSITES["Bank of Maharashtra"]
+        ),
+
+        "IDFC FIRST Bank": product(
+            amount_text="Business profile / eligibility based",
+            source_url=BANK_WEBSITES["IDFC FIRST Bank"]
+        ),
+
+        "Federal Bank": product(
+            amount_text="Business profile / eligibility based",
+            source_url=BANK_WEBSITES["Federal Bank"]
+        ),
+
+        "IndusInd Bank": product(
+            amount_text="Business profile / eligibility based",
+            source_url=BANK_WEBSITES["IndusInd Bank"]
+        ),
+
+        "YES Bank": product(
+            amount_text="Business profile / eligibility based",
+            source_url=BANK_WEBSITES["YES Bank"]
+        ),
     },
 
 
@@ -335,15 +815,87 @@ LOAN_DATA = {
 
     "Loan Against Property": {
 
-        "SBI": {
-            "available": True,
-            "min_amount": 1000000,
-            "max_amount": 75000000,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "SBI Property Loan Scheme",
-            "source_url": "https://sbi.co.in/web/personal-banking/loans/loans-against-property/loans-against-property"
-        }
+        "SBI": product(
+            min_amount=1000000,
+            max_amount=75000000,
+            amount_text="₹10 lakh – ₹7.5 crore",
+            source_url=BANK_WEBSITES["SBI"]
+        ),
+
+        "HDFC Bank": product(
+            amount_text="Property value / eligibility based",
+            source_url=BANK_WEBSITES["HDFC Bank"]
+        ),
+
+        "ICICI Bank": product(
+            amount_text="Property value / eligibility based",
+            source_url=BANK_WEBSITES["ICICI Bank"]
+        ),
+
+        "Axis Bank": product(
+            amount_text="Property value / eligibility based",
+            source_url=BANK_WEBSITES["Axis Bank"]
+        ),
+
+        "Kotak Mahindra Bank": product(
+            amount_text="Property value / eligibility based",
+            source_url=BANK_WEBSITES["Kotak Mahindra Bank"]
+        ),
+
+        "Bank of Baroda": product(
+            amount_text="Property value / scheme based",
+            source_url=BANK_WEBSITES["Bank of Baroda"]
+        ),
+
+        "Punjab National Bank": product(
+            amount_text="Property value / scheme based",
+            source_url=BANK_WEBSITES["Punjab National Bank"]
+        ),
+
+        "Canara Bank": product(
+            amount_text="Property value / scheme based",
+            source_url=BANK_WEBSITES["Canara Bank"]
+        ),
+
+        "Union Bank of India": product(
+            amount_text="Property value / scheme based",
+            source_url=BANK_WEBSITES["Union Bank of India"]
+        ),
+
+        "Indian Bank": product(
+            amount_text="Property value / scheme based",
+            source_url=BANK_WEBSITES["Indian Bank"]
+        ),
+
+        "Bank of India": product(
+            amount_text="Property value / scheme based",
+            source_url=BANK_WEBSITES["Bank of India"]
+        ),
+
+        "Bank of Maharashtra": product(
+            amount_text="Property value / scheme based",
+            source_url=BANK_WEBSITES["Bank of Maharashtra"]
+        ),
+
+        "IDFC FIRST Bank": product(
+            amount_text="Property value / eligibility based",
+            source_url=BANK_WEBSITES["IDFC FIRST Bank"]
+        ),
+
+        "Federal Bank": product(
+            amount_text="Property value / eligibility based",
+            source_url=BANK_WEBSITES["Federal Bank"]
+        ),
+
+        "IndusInd Bank": product(
+            amount_text="Property value / eligibility based",
+            source_url=BANK_WEBSITES["IndusInd Bank"]
+        ),
+
+        "YES Bank": product(
+            amount_text="Property value / eligibility based",
+            source_url=BANK_WEBSITES["YES Bank"]
+        ),
     },
 
 
@@ -353,35 +905,85 @@ LOAN_DATA = {
 
     "Agriculture Loan": {
 
-        "SBI": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "SBI Agriculture Banking",
-            "source_url": "https://sbi.co.in/"
-        },
+        "SBI": product(
+            amount_text="Varies by agricultural product",
+            source_url=BANK_WEBSITES["SBI"]
+        ),
 
-        "Bank of Baroda": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "Bank of Baroda Agriculture Banking",
-            "source_url": "https://www.bankofbaroda.in/"
-        },
+        "HDFC Bank": product(
+            amount_text="Crop / farm / eligibility based",
+            source_url=BANK_WEBSITES["HDFC Bank"]
+        ),
 
-        "Canara Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "Canara Bank Agriculture Banking",
-            "source_url": "https://canarabank.com/"
-        }
+        "ICICI Bank": product(
+            amount_text="Agricultural product / eligibility based",
+            source_url=BANK_WEBSITES["ICICI Bank"]
+        ),
+
+        "Axis Bank": product(
+            amount_text="Agricultural product / eligibility based",
+            source_url=BANK_WEBSITES["Axis Bank"]
+        ),
+
+        "Kotak Mahindra Bank": product(
+            amount_text="Agricultural product / eligibility based",
+            source_url=BANK_WEBSITES["Kotak Mahindra Bank"]
+        ),
+
+        "Bank of Baroda": product(
+            amount_text="Crop / agricultural scheme based",
+            source_url=BANK_WEBSITES["Bank of Baroda"]
+        ),
+
+        "Punjab National Bank": product(
+            amount_text="Crop / agricultural scheme based",
+            source_url=BANK_WEBSITES["Punjab National Bank"]
+        ),
+
+        "Canara Bank": product(
+            amount_text="Crop / agricultural scheme based",
+            source_url=BANK_WEBSITES["Canara Bank"]
+        ),
+
+        "Union Bank of India": product(
+            amount_text="Crop / agricultural scheme based",
+            source_url=BANK_WEBSITES["Union Bank of India"]
+        ),
+
+        "Indian Bank": product(
+            amount_text="Crop / agricultural scheme based",
+            source_url=BANK_WEBSITES["Indian Bank"]
+        ),
+
+        "Bank of India": product(
+            amount_text="Crop / agricultural scheme based",
+            source_url=BANK_WEBSITES["Bank of India"]
+        ),
+
+        "Bank of Maharashtra": product(
+            amount_text="Crop / agricultural scheme based",
+            source_url=BANK_WEBSITES["Bank of Maharashtra"]
+        ),
+
+        "IDFC FIRST Bank": product(
+            amount_text="Agricultural product / eligibility based",
+            source_url=BANK_WEBSITES["IDFC FIRST Bank"]
+        ),
+
+        "Federal Bank": product(
+            amount_text="Agricultural product / eligibility based",
+            source_url=BANK_WEBSITES["Federal Bank"]
+        ),
+
+        "IndusInd Bank": product(
+            amount_text="Agricultural product / eligibility based",
+            source_url=BANK_WEBSITES["IndusInd Bank"]
+        ),
+
+        "YES Bank": product(
+            amount_text="Agricultural product / eligibility based",
+            source_url=BANK_WEBSITES["YES Bank"]
+        ),
     },
 
 
@@ -391,14 +993,84 @@ LOAN_DATA = {
 
     "Consumer Durable Loan": {
 
-        "ICICI Bank": {
-            "available": True,
-            "min_amount": None,
-            "max_amount": None,
-            "interest_rate": None,
-            "max_tenure": None,
-            "source": "ICICI Bank Consumer Finance",
-            "source_url": "https://www.icicibank.com/Personal-Banking/loans/loans.page"
-        }
-    }
+        "SBI": product(
+            amount_text="Product / eligibility based",
+            source_url=BANK_WEBSITES["SBI"]
+        ),
+
+        "HDFC Bank": product(
+            amount_text="Product / eligibility based",
+            source_url=BANK_WEBSITES["HDFC Bank"]
+        ),
+
+        "ICICI Bank": product(
+            amount_text="Product / eligibility based",
+            source_url=BANK_WEBSITES["ICICI Bank"]
+        ),
+
+        "Axis Bank": product(
+            amount_text="Product / eligibility based",
+            source_url=BANK_WEBSITES["Axis Bank"]
+        ),
+
+        "Kotak Mahindra Bank": product(
+            amount_text="Product / eligibility based",
+            source_url=BANK_WEBSITES["Kotak Mahindra Bank"]
+        ),
+
+        "Bank of Baroda": product(
+            amount_text="Product / scheme based",
+            source_url=BANK_WEBSITES["Bank of Baroda"]
+        ),
+
+        "Punjab National Bank": product(
+            amount_text="Product / scheme based",
+            source_url=BANK_WEBSITES["Punjab National Bank"]
+        ),
+
+        "Canara Bank": product(
+            amount_text="Product / scheme based",
+            source_url=BANK_WEBSITES["Canara Bank"]
+        ),
+
+        "Union Bank of India": product(
+            amount_text="Product / scheme based",
+            source_url=BANK_WEBSITES["Union Bank of India"]
+        ),
+
+        "Indian Bank": product(
+            amount_text="Product / scheme based",
+            source_url=BANK_WEBSITES["Indian Bank"]
+        ),
+
+        "Bank of India": product(
+            amount_text="Product / scheme based",
+            source_url=BANK_WEBSITES["Bank of India"]
+        ),
+
+        "Bank of Maharashtra": product(
+            amount_text="Product / scheme based",
+            source_url=BANK_WEBSITES["Bank of Maharashtra"]
+        ),
+
+        "IDFC FIRST Bank": product(
+            amount_text="Product / eligibility based",
+            source_url=BANK_WEBSITES["IDFC FIRST Bank"]
+        ),
+
+        "Federal Bank": product(
+            amount_text="Product / eligibility based",
+            source_url=BANK_WEBSITES["Federal Bank"]
+        ),
+
+        "IndusInd Bank": product(
+            amount_text="Product / eligibility based",
+            source_url=BANK_WEBSITES["IndusInd Bank"]
+        ),
+
+        "YES Bank": product(
+            amount_text="Product / eligibility based",
+            source_url=BANK_WEBSITES["YES Bank"]
+        ),
+    },
 }
