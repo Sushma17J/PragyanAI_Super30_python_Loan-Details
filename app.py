@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from textwrap import dedent
 
 from loan_data import (
     BANKS,
@@ -23,6 +24,18 @@ st.set_page_config(
 
 
 # ==========================================================
+# HELPER FOR HTML
+# ==========================================================
+
+def html(content):
+    """
+    Removes Python indentation from HTML so that
+    Streamlit does not interpret it as a code block.
+    """
+    return dedent(content).strip()
+
+
+# ==========================================================
 # SESSION STATE
 # ==========================================================
 
@@ -37,21 +50,50 @@ if "selected_bank" not in st.session_state:
 # CUSTOM CSS
 # ==========================================================
 
-st.markdown("""
+st.markdown(
+    """
 <style>
 
 /* ==========================================================
-   GLOBAL
+   GLOBAL APP
 ========================================================== */
 
 .stApp {
-    background: #f5f7fb;
+    background-color: #f5f7fb !important;
+    color: #111827 !important;
 }
 
 .block-container {
-    padding-top: 2rem;
-    padding-bottom: 4rem;
+    padding-top: 2rem !important;
+    padding-bottom: 4rem !important;
     max-width: 1450px;
+}
+
+
+/* ==========================================================
+   NORMAL TEXT
+========================================================== */
+
+p,
+span,
+label,
+.stMarkdown,
+.stCaption {
+    color: #374151;
+}
+
+
+/* ==========================================================
+   HEADINGS
+========================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #111827 !important;
 }
 
 
@@ -65,21 +107,27 @@ st.markdown("""
             180deg,
             #030712 0%,
             #0f172a 100%
-        );
+        ) !important;
 
     border-right: 1px solid #1e293b;
 }
 
 [data-testid="stSidebar"] * {
-    color: #f8fafc;
+    color: #f8fafc !important;
 }
+
+
+/* Sidebar radio */
 
 [data-testid="stSidebar"] .stRadio label {
     color: #e2e8f0 !important;
 }
 
-[data-testid="stSidebar"] .stRadio label:hover {
-    color: #60a5fa !important;
+
+/* Sidebar divider */
+
+[data-testid="stSidebar"] hr {
+    border-color: #263244 !important;
 }
 
 
@@ -112,8 +160,6 @@ st.markdown("""
             #172554 100%
         );
 
-    color: white;
-
     margin-bottom: 38px;
 
     border: 1px solid #263244;
@@ -124,39 +170,20 @@ st.markdown("""
     overflow: hidden;
 }
 
-.hero::after {
-    content: "";
-
-    position: absolute;
-
-    width: 230px;
-    height: 230px;
-
-    right: -80px;
-    bottom: -100px;
-
-    border-radius: 50%;
-
-    border: 1px solid rgba(255,255,255,0.08);
-}
-
 .hero h1 {
-    position: relative;
+    color: #ffffff !important;
 
     font-size: 48px;
+
     font-weight: 800;
 
     margin: 0 0 12px 0;
-
-    color: #ffffff;
 }
 
 .hero p {
-    position: relative;
+    color: #cbd5e1 !important;
 
     font-size: 18px;
-
-    color: #cbd5e1;
 
     max-width: 680px;
 
@@ -176,9 +203,10 @@ st.markdown("""
     font-weight: 800;
 
     margin-top: 25px;
+
     margin-bottom: 8px;
 
-    color: #0f172a;
+    color: #0f172a !important;
 }
 
 
@@ -308,7 +336,7 @@ st.markdown("""
 
     z-index: 2;
 
-    color: #ffffff;
+    color: #ffffff !important;
 
     font-size: 21px;
 
@@ -322,7 +350,7 @@ st.markdown("""
 
     z-index: 2;
 
-    color: #aeb9ca;
+    color: #aeb9ca !important;
 
     font-size: 14px;
 
@@ -335,16 +363,17 @@ st.markdown("""
 
 
 /* ==========================================================
-   EXPLORE TEXT
+   EXPLORE
 ========================================================== */
 
 .loan-explore {
     position: absolute;
 
     bottom: 20px;
+
     right: 22px;
 
-    color: #60a5fa;
+    color: #60a5fa !important;
 
     font-size: 13px;
 
@@ -361,7 +390,7 @@ st.markdown("""
 ========================================================== */
 
 .step-card {
-    background: white;
+    background: #ffffff;
 
     border: 1px solid #e2e8f0;
 
@@ -399,7 +428,7 @@ st.markdown("""
 
     background: #eff6ff;
 
-    color: #2563eb;
+    color: #2563eb !important;
 
     font-weight: 800;
 
@@ -415,7 +444,7 @@ st.markdown("""
 .step-card h4 {
     margin: 0 0 7px 0;
 
-    color: #0f172a;
+    color: #0f172a !important;
 
     font-size: 17px;
 }
@@ -423,7 +452,7 @@ st.markdown("""
 .step-card p {
     margin: 0;
 
-    color: #64748b;
+    color: #64748b !important;
 
     font-size: 13px;
 
@@ -432,7 +461,139 @@ st.markdown("""
 
 
 /* ==========================================================
-   INFORMATION BOXES
+   INPUT LABELS
+========================================================== */
+
+.stSelectbox label,
+.stMultiSelect label,
+.stNumberInput label,
+.stSlider label {
+    color: #374151 !important;
+
+    font-weight: 600 !important;
+}
+
+
+/* ==========================================================
+   INPUT BOXES
+========================================================== */
+
+div[data-baseweb="select"] > div {
+    background-color: #ffffff !important;
+
+    color: #111827 !important;
+
+    border-radius: 10px;
+
+    border: 1px solid #d1d5db;
+}
+
+div[data-baseweb="select"] span {
+    color: #111827 !important;
+}
+
+.stNumberInput input {
+    background-color: #ffffff !important;
+
+    color: #111827 !important;
+
+    border-radius: 10px;
+}
+
+
+/* ==========================================================
+   SLIDER
+========================================================== */
+
+.stSlider label {
+    color: #374151 !important;
+}
+
+
+/* ==========================================================
+   METRICS
+========================================================== */
+
+[data-testid="stMetric"] {
+    background: #ffffff !important;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow:
+        0 5px 15px rgba(15,23,42,0.05);
+}
+
+[data-testid="stMetricLabel"] {
+    color: #475569 !important;
+}
+
+[data-testid="stMetricValue"] {
+    color: #111827 !important;
+}
+
+[data-testid="stMetricDelta"] {
+    color: #374151 !important;
+}
+
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+.stButton > button {
+    border-radius: 11px;
+
+    min-height: 45px;
+
+    font-weight: 700;
+
+    border: 1px solid #dbe3ee;
+
+    transition: 0.2s ease;
+
+    color: #111827;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+
+    border-color: #2563eb;
+}
+
+
+/* Primary */
+
+.stButton > button[kind="primary"] {
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #1d4ed8
+        ) !important;
+
+    color: #ffffff !important;
+
+    border: none !important;
+}
+
+
+/* ==========================================================
+   LINK BUTTON
+========================================================== */
+
+.stLinkButton > a {
+    border-radius: 10px !important;
+
+    font-weight: 700 !important;
+}
+
+
+/* ==========================================================
+   INFO / WARNING / SUCCESS
 ========================================================== */
 
 .info-box {
@@ -479,78 +640,20 @@ st.markdown("""
 
 
 /* ==========================================================
-   STREAMLIT BUTTONS
+   STREAMLIT ALERT TEXT
 ========================================================== */
 
-.stButton > button {
-    border-radius: 11px;
-
-    min-height: 45px;
-
-    font-weight: 700;
-
-    border: 1px solid #dbe3ee;
-
-    transition: 0.2s ease;
-}
-
-.stButton > button:hover {
-    transform: translateY(-2px);
-
-    border-color: #2563eb;
+[data-testid="stAlert"] {
+    color: #111827 !important;
 }
 
 
 /* ==========================================================
-   PRIMARY BUTTON
+   DATAFRAME
 ========================================================== */
 
-.stButton > button[kind="primary"] {
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #1d4ed8
-        );
-
-    color: white;
-
-    border: none;
-}
-
-
-/* ==========================================================
-   INPUTS
-========================================================== */
-
-div[data-baseweb="select"] > div {
-    border-radius: 10px;
-}
-
-.stNumberInput input {
-    border-radius: 10px;
-}
-
-.stTextInput input {
-    border-radius: 10px;
-}
-
-
-/* ==========================================================
-   METRICS
-========================================================== */
-
-[data-testid="stMetric"] {
-    background: white;
-
-    padding: 18px;
-
-    border-radius: 15px;
-
-    border: 1px solid #e2e8f0;
-
-    box-shadow:
-        0 5px 15px rgba(15,23,42,0.05);
+[data-testid="stDataFrame"] {
+    border-radius: 12px;
 }
 
 
@@ -565,9 +668,13 @@ div[data-baseweb="select"] > div {
 
     margin-top: 55px;
 
-    color: #64748b;
+    color: #64748b !important;
 
     border-top: 1px solid #e2e8f0;
+}
+
+.footer strong {
+    color: #0f172a !important;
 }
 
 
@@ -584,7 +691,9 @@ hr {
 }
 
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True
+)
 
 
 # ==========================================================
@@ -592,39 +701,42 @@ hr {
 # ==========================================================
 
 st.sidebar.markdown(
-    """
-    <div style="
-        text-align:center;
-        padding:15px 5px 10px 5px;
-    ">
-
+    html(
+        """
         <div style="
-            font-size:48px;
-            margin-bottom:6px;
+            text-align:center;
+            padding:15px 5px 10px 5px;
         ">
-            🏦
-        </div>
 
-        <div style="
-            font-size:23px;
-            font-weight:800;
-            color:#ffffff;
-        ">
-            SmartLoan India
-        </div>
+            <div style="
+                font-size:48px;
+                margin-bottom:6px;
+            ">
+                🏦
+            </div>
 
-        <div style="
-            font-size:12px;
-            color:#94a3b8;
-            margin-top:5px;
-        ">
-            Smart • Simple • Transparent
-        </div>
+            <div style="
+                font-size:23px;
+                font-weight:800;
+                color:#ffffff;
+            ">
+                SmartLoan India
+            </div>
 
-    </div>
-    """,
+            <div style="
+                font-size:12px;
+                color:#94a3b8;
+                margin-top:5px;
+            ">
+                Smart • Simple • Transparent
+            </div>
+
+        </div>
+        """
+    ),
     unsafe_allow_html=True
 )
+
 
 st.sidebar.markdown("---")
 
@@ -644,34 +756,36 @@ st.sidebar.markdown("---")
 
 
 st.sidebar.markdown(
-    """
-    <div style="
-        background:#111827;
-        padding:16px;
-        border-radius:14px;
-        border:1px solid #263244;
-    ">
-
+    html(
+        """
         <div style="
-            color:#60a5fa;
-            font-weight:700;
-            margin-bottom:8px;
+            background:#111827;
+            padding:16px;
+            border-radius:14px;
+            border:1px solid #263244;
         ">
-            💡 Smart Tip
-        </div>
 
-        <div style="
-            color:#cbd5e1;
-            font-size:13px;
-            line-height:1.6;
-        ">
-            Compare loan options and
-            always verify the latest
-            terms directly with the bank.
-        </div>
+            <div style="
+                color:#60a5fa;
+                font-weight:700;
+                margin-bottom:8px;
+            ">
+                💡 Smart Tip
+            </div>
 
-    </div>
-    """,
+            <div style="
+                color:#cbd5e1;
+                font-size:13px;
+                line-height:1.6;
+            ">
+                Compare loan options and
+                always verify the latest
+                terms directly with the bank.
+            </div>
+
+        </div>
+        """
+    ),
     unsafe_allow_html=True
 )
 
@@ -687,50 +801,54 @@ if page == "🏠 Home":
     # ------------------------------------------------------
 
     st.markdown(
-        """
-        <div class="hero">
+        html(
+            """
+            <div class="hero">
 
-            <h1>
-                🏦 SmartLoan India
-            </h1>
+                <h1>
+                    🏦 SmartLoan India
+                </h1>
 
-            <p>
-                Find, compare and calculate loans
-                from major Indian banks — all in one place.
-            </p>
+                <p>
+                    Find, compare and calculate loans
+                    from major Indian banks — all in one place.
+                </p>
 
-        </div>
-        """,
+            </div>
+            """
+        ),
         unsafe_allow_html=True
     )
 
 
     # ------------------------------------------------------
-    # SECTION TITLE
+    # TITLE
     # ------------------------------------------------------
 
     st.markdown(
-        """
-        <div class="section-title">
-            Choose the loan you need
-        </div>
+        html(
+            """
+            <div class="section-title">
+                Choose the loan you need
+            </div>
 
-        <p style="
-            color:#64748b;
-            margin-top:-2px;
-            margin-bottom:27px;
-            font-size:15px;
-        ">
-            Explore loan options designed for different
-            financial needs.
-        </p>
-        """,
+            <p style="
+                color:#64748b;
+                margin-top:0;
+                margin-bottom:27px;
+                font-size:15px;
+            ">
+                Explore loan options designed for different
+                financial needs.
+            </p>
+            """
+        ),
         unsafe_allow_html=True
     )
 
 
     # ======================================================
-    # ROW 1
+    # PERSONAL / EDUCATION / HOME
     # ======================================================
 
     col1, col2, col3 = st.columns(3)
@@ -739,28 +857,30 @@ if page == "🏠 Home":
     with col1:
 
         st.markdown(
-            """
-            <div class="loan-card">
+            html(
+                """
+                <div class="loan-card">
 
-                <div class="loan-icon">
-                    👤
+                    <div class="loan-icon">
+                        👤
+                    </div>
+
+                    <h3>
+                        Personal Loan
+                    </h3>
+
+                    <p>
+                        Flexible financing for personal,
+                        emergency and lifestyle needs.
+                    </p>
+
+                    <div class="loan-explore">
+                        Explore →
+                    </div>
+
                 </div>
-
-                <h3>
-                    Personal Loan
-                </h3>
-
-                <p>
-                    Flexible financing for personal,
-                    emergency and lifestyle needs.
-                </p>
-
-                <div class="loan-explore">
-                    Explore →
-                </div>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -768,28 +888,30 @@ if page == "🏠 Home":
     with col2:
 
         st.markdown(
-            """
-            <div class="loan-card">
+            html(
+                """
+                <div class="loan-card">
 
-                <div class="loan-icon">
-                    🎓
+                    <div class="loan-icon">
+                        🎓
+                    </div>
+
+                    <h3>
+                        Education Loan
+                    </h3>
+
+                    <p>
+                        Finance higher education in India
+                        or abroad with suitable options.
+                    </p>
+
+                    <div class="loan-explore">
+                        Explore →
+                    </div>
+
                 </div>
-
-                <h3>
-                    Education Loan
-                </h3>
-
-                <p>
-                    Finance higher education in India
-                    or abroad with suitable options.
-                </p>
-
-                <div class="loan-explore">
-                    Explore →
-                </div>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -797,34 +919,36 @@ if page == "🏠 Home":
     with col3:
 
         st.markdown(
-            """
-            <div class="loan-card">
+            html(
+                """
+                <div class="loan-card">
 
-                <div class="loan-icon">
-                    🏠
+                    <div class="loan-icon">
+                        🏠
+                    </div>
+
+                    <h3>
+                        Home Loan
+                    </h3>
+
+                    <p>
+                        Compare financing options for
+                        purchasing or constructing a home.
+                    </p>
+
+                    <div class="loan-explore">
+                        Explore →
+                    </div>
+
                 </div>
-
-                <h3>
-                    Home Loan
-                </h3>
-
-                <p>
-                    Compare financing options for
-                    purchasing or constructing a home.
-                </p>
-
-                <div class="loan-explore">
-                    Explore →
-                </div>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
 
     # ======================================================
-    # ROW 2
+    # CAR / TWO WHEELER / GOLD
     # ======================================================
 
     col1, col2, col3 = st.columns(3)
@@ -833,28 +957,30 @@ if page == "🏠 Home":
     with col1:
 
         st.markdown(
-            """
-            <div class="loan-card">
+            html(
+                """
+                <div class="loan-card">
 
-                <div class="loan-icon">
-                    🚗
+                    <div class="loan-icon">
+                        🚗
+                    </div>
+
+                    <h3>
+                        Car Loan
+                    </h3>
+
+                    <p>
+                        Finance your new or used car with
+                        flexible repayment options.
+                    </p>
+
+                    <div class="loan-explore">
+                        Explore →
+                    </div>
+
                 </div>
-
-                <h3>
-                    Car Loan
-                </h3>
-
-                <p>
-                    Finance your new or used car with
-                    flexible repayment options.
-                </p>
-
-                <div class="loan-explore">
-                    Explore →
-                </div>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -862,28 +988,30 @@ if page == "🏠 Home":
     with col2:
 
         st.markdown(
-            """
-            <div class="loan-card">
+            html(
+                """
+                <div class="loan-card">
 
-                <div class="loan-icon">
-                    🛵
+                    <div class="loan-icon">
+                        🛵
+                    </div>
+
+                    <h3>
+                        Two-Wheeler Loan
+                    </h3>
+
+                    <p>
+                        Get financing for bikes, scooters
+                        and other two-wheelers.
+                    </p>
+
+                    <div class="loan-explore">
+                        Explore →
+                    </div>
+
                 </div>
-
-                <h3>
-                    Two-Wheeler Loan
-                </h3>
-
-                <p>
-                    Get financing for bikes, scooters
-                    and other two-wheelers.
-                </p>
-
-                <div class="loan-explore">
-                    Explore →
-                </div>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -891,34 +1019,36 @@ if page == "🏠 Home":
     with col3:
 
         st.markdown(
-            """
-            <div class="loan-card">
+            html(
+                """
+                <div class="loan-card">
 
-                <div class="loan-icon">
-                    🥇
+                    <div class="loan-icon">
+                        🥇
+                    </div>
+
+                    <h3>
+                        Gold Loan
+                    </h3>
+
+                    <p>
+                        Borrow against eligible gold assets
+                        for your financial requirements.
+                    </p>
+
+                    <div class="loan-explore">
+                        Explore →
+                    </div>
+
                 </div>
-
-                <h3>
-                    Gold Loan
-                </h3>
-
-                <p>
-                    Borrow against eligible gold assets
-                    for your financial requirements.
-                </p>
-
-                <div class="loan-explore">
-                    Explore →
-                </div>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
 
     # ======================================================
-    # ROW 3
+    # BUSINESS / LAP / AGRICULTURE
     # ======================================================
 
     col1, col2, col3 = st.columns(3)
@@ -927,28 +1057,30 @@ if page == "🏠 Home":
     with col1:
 
         st.markdown(
-            """
-            <div class="loan-card">
+            html(
+                """
+                <div class="loan-card">
 
-                <div class="loan-icon">
-                    💼
+                    <div class="loan-icon">
+                        💼
+                    </div>
+
+                    <h3>
+                        Business Loan
+                    </h3>
+
+                    <p>
+                        Financing solutions for business
+                        expansion and working capital.
+                    </p>
+
+                    <div class="loan-explore">
+                        Explore →
+                    </div>
+
                 </div>
-
-                <h3>
-                    Business Loan
-                </h3>
-
-                <p>
-                    Financing solutions for business
-                    expansion and working capital.
-                </p>
-
-                <div class="loan-explore">
-                    Explore →
-                </div>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -956,28 +1088,30 @@ if page == "🏠 Home":
     with col2:
 
         st.markdown(
-            """
-            <div class="loan-card">
+            html(
+                """
+                <div class="loan-card">
 
-                <div class="loan-icon">
-                    🏢
+                    <div class="loan-icon">
+                        🏢
+                    </div>
+
+                    <h3>
+                        Loan Against Property
+                    </h3>
+
+                    <p>
+                        Access funds by using eligible
+                        property as security.
+                    </p>
+
+                    <div class="loan-explore">
+                        Explore →
+                    </div>
+
                 </div>
-
-                <h3>
-                    Loan Against Property
-                </h3>
-
-                <p>
-                    Access funds by using eligible
-                    property as security.
-                </p>
-
-                <div class="loan-explore">
-                    Explore →
-                </div>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -985,28 +1119,30 @@ if page == "🏠 Home":
     with col3:
 
         st.markdown(
-            """
-            <div class="loan-card">
+            html(
+                """
+                <div class="loan-card">
 
-                <div class="loan-icon">
-                    🚜
+                    <div class="loan-icon">
+                        🚜
+                    </div>
+
+                    <h3>
+                        Agriculture Loan
+                    </h3>
+
+                    <p>
+                        Financial support for farming and
+                        agricultural activities.
+                    </p>
+
+                    <div class="loan-explore">
+                        Explore →
+                    </div>
+
                 </div>
-
-                <h3>
-                    Agriculture Loan
-                </h3>
-
-                <p>
-                    Financial support for farming and
-                    agricultural activities.
-                </p>
-
-                <div class="loan-explore">
-                    Explore →
-                </div>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -1019,20 +1155,22 @@ if page == "🏠 Home":
 
 
     st.markdown(
-        """
-        <div class="section-title">
-            How it works
-        </div>
+        html(
+            """
+            <div class="section-title">
+                How it works
+            </div>
 
-        <p style="
-            color:#64748b;
-            margin-top:-2px;
-            margin-bottom:22px;
-        ">
-            Get from loan selection to EMI calculation
-            in four simple steps.
-        </p>
-        """,
+            <p style="
+                color:#64748b;
+                margin-top:0;
+                margin-bottom:22px;
+            ">
+                Get from loan selection to EMI calculation
+                in four simple steps.
+            </p>
+            """
+        ),
         unsafe_allow_html=True
     )
 
@@ -1043,28 +1181,30 @@ if page == "🏠 Home":
     with step1:
 
         st.markdown(
-            """
-            <div class="step-card">
+            html(
+                """
+                <div class="step-card">
 
-                <div class="step-number">
-                    01
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <div class="step-icon">
+                        🏦
+                    </div>
+
+                    <h4>
+                        Select Loan
+                    </h4>
+
+                    <p>
+                        Choose the type of loan
+                        you need.
+                    </p>
+
                 </div>
-
-                <div class="step-icon">
-                    🏦
-                </div>
-
-                <h4>
-                    Select Loan
-                </h4>
-
-                <p>
-                    Choose the type of loan
-                    you need.
-                </p>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -1072,28 +1212,30 @@ if page == "🏠 Home":
     with step2:
 
         st.markdown(
-            """
-            <div class="step-card">
+            html(
+                """
+                <div class="step-card">
 
-                <div class="step-number">
-                    02
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <div class="step-icon">
+                        🏛️
+                    </div>
+
+                    <h4>
+                        Select Bank
+                    </h4>
+
+                    <p>
+                        Choose a bank from
+                        the available list.
+                    </p>
+
                 </div>
-
-                <div class="step-icon">
-                    🏛️
-                </div>
-
-                <h4>
-                    Select Bank
-                </h4>
-
-                <p>
-                    Choose a bank from
-                    the available list.
-                </p>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -1101,28 +1243,30 @@ if page == "🏠 Home":
     with step3:
 
         st.markdown(
-            """
-            <div class="step-card">
+            html(
+                """
+                <div class="step-card">
 
-                <div class="step-number">
-                    03
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <div class="step-icon">
+                        💰
+                    </div>
+
+                    <h4>
+                        Enter Amount
+                    </h4>
+
+                    <p>
+                        Enter your required
+                        loan amount.
+                    </p>
+
                 </div>
-
-                <div class="step-icon">
-                    💰
-                </div>
-
-                <h4>
-                    Enter Amount
-                </h4>
-
-                <p>
-                    Enter your required
-                    loan amount.
-                </p>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -1130,28 +1274,30 @@ if page == "🏠 Home":
     with step4:
 
         st.markdown(
-            """
-            <div class="step-card">
+            html(
+                """
+                <div class="step-card">
 
-                <div class="step-number">
-                    04
+                    <div class="step-number">
+                        04
+                    </div>
+
+                    <div class="step-icon">
+                        🧮
+                    </div>
+
+                    <h4>
+                        Calculate EMI
+                    </h4>
+
+                    <p>
+                        Get your estimated
+                        monthly EMI.
+                    </p>
+
                 </div>
-
-                <div class="step-icon">
-                    🧮
-                </div>
-
-                <h4>
-                    Calculate EMI
-                </h4>
-
-                <p>
-                    Get your estimated
-                    monthly EMI.
-                </p>
-
-            </div>
-            """,
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -1164,20 +1310,22 @@ if page == "🏠 Home":
 
 
     st.markdown(
-        """
-        <div class="warning-box">
+        html(
+            """
+            <div class="warning-box">
 
-        ⚠️ <b>Important:</b>
+                ⚠️ <b>Important:</b>
 
-        Loan interest rates, maximum amounts,
-        eligibility requirements and fees can
-        change over time.
+                Loan interest rates, maximum amounts,
+                eligibility requirements and fees can
+                change over time.
 
-        Always verify the latest terms directly
-        with the respective bank before applying.
+                Always verify the latest terms directly
+                with the respective bank before applying.
 
-        </div>
-        """,
+            </div>
+            """
+        ),
         unsafe_allow_html=True
     )
 
@@ -1224,7 +1372,7 @@ elif page == "🔍 Find Loan":
 
         st.warning(
             f"""
-            ❌ **{bank}** does not currently have
+            ❌ {bank} does not currently have
             verified {loan_type} information in
             our database.
             """
@@ -1233,9 +1381,8 @@ elif page == "🔍 Find Loan":
 
         st.info(
             """
-            We don't invent loan limits or
-            interest rates when they haven't
-            been verified.
+            We don't invent loan limits or interest
+            rates when they haven't been verified.
             """
         )
 
@@ -1333,7 +1480,7 @@ elif page == "🔍 Find Loan":
 
 
         # --------------------------------------------------
-        # CAR
+        # CAR LOAN
         # --------------------------------------------------
 
         if loan_type == "Car Loan":
@@ -1375,7 +1522,7 @@ elif page == "🔍 Find Loan":
 
 
         # --------------------------------------------------
-        # TWO WHEELER
+        # TWO-WHEELER LOAN
         # --------------------------------------------------
 
         elif loan_type == "Two-Wheeler Loan":
@@ -1417,7 +1564,7 @@ elif page == "🔍 Find Loan":
 
 
         # --------------------------------------------------
-        # GOLD
+        # GOLD LOAN
         # --------------------------------------------------
 
         elif loan_type == "Gold Loan":
@@ -1456,7 +1603,7 @@ elif page == "🔍 Find Loan":
 
 
         # --------------------------------------------------
-        # EDUCATION
+        # EDUCATION LOAN
         # --------------------------------------------------
 
         elif loan_type == "Education Loan":
@@ -1495,7 +1642,7 @@ elif page == "🔍 Find Loan":
 
 
         # --------------------------------------------------
-        # HOME
+        # HOME LOAN
         # --------------------------------------------------
 
         elif loan_type == "Home Loan":
@@ -1572,7 +1719,7 @@ elif page == "🔍 Find Loan":
 
 
         # ==================================================
-        # VALIDATION
+        # AMOUNT VALIDATION
         # ==================================================
 
         if product["max_amount"]:
@@ -1618,7 +1765,10 @@ elif page == "🔍 Find Loan":
                 "Select Tenure (Years)",
                 min_value=1,
                 max_value=product["max_tenure"],
-                value=min(5, product["max_tenure"])
+                value=min(
+                    5,
+                    product["max_tenure"]
+                )
             )
 
         else:
@@ -1632,7 +1782,7 @@ elif page == "🔍 Find Loan":
 
 
         # ==================================================
-        # INTEREST
+        # INTEREST RATE
         # ==================================================
 
         if product["interest_rate"]:
@@ -1702,7 +1852,7 @@ elif page == "🔍 Find Loan":
 
 
         # ==================================================
-        # COMPARE
+        # ADD TO COMPARE
         # ==================================================
 
         if compare:
@@ -1717,7 +1867,7 @@ elif page == "🔍 Find Loan":
 
 
         # ==================================================
-        # EMI
+        # CALCULATE EMI
         # ==================================================
 
         if calculate:
@@ -1738,6 +1888,7 @@ elif page == "🔍 Find Loan":
 
 
                 st.markdown("---")
+
 
                 st.subheader(
                     "📊 Estimated Loan Result"
@@ -1772,36 +1923,38 @@ elif page == "🔍 Find Loan":
 
 
                 st.markdown(
-                    f"""
-                    <div class="success-box">
+                    html(
+                        f"""
+                        <div class="success-box">
 
-                    <b>Loan Summary</b>
+                            <b>Loan Summary</b>
 
-                    <br><br>
+                            <br><br>
 
-                    <b>Bank:</b> {bank}
+                            <b>Bank:</b> {bank}
 
-                    <br>
+                            <br>
 
-                    <b>Loan Type:</b> {loan_type}
+                            <b>Loan Type:</b> {loan_type}
 
-                    <br>
+                            <br>
 
-                    <b>Loan Amount:</b>
-                    ₹{loan_amount:,}
+                            <b>Loan Amount:</b>
+                            ₹{loan_amount:,}
 
-                    <br>
+                            <br>
 
-                    <b>Interest Rate:</b>
-                    {interest_rate}%
+                            <b>Interest Rate:</b>
+                            {interest_rate}%
 
-                    <br>
+                            <br>
 
-                    <b>Tenure:</b>
-                    {tenure} years
+                            <b>Tenure:</b>
+                            {tenure} years
 
-                    </div>
-                    """,
+                        </div>
+                        """
+                    ),
                     unsafe_allow_html=True
                 )
 
@@ -1875,56 +2028,66 @@ elif page == "📊 Compare Loans":
 
                 if product is None:
 
-                    rows.append({
-                        "Bank": bank,
-                        "Available": "❌ No verified data",
-                        "Minimum Loan": "-",
-                        "Maximum Loan": "-",
-                        "Interest Rate": "-",
-                        "Maximum Tenure": "-"
-                    })
-
+                    rows.append(
+                        {
+                            "Bank": bank,
+                            "Available": "❌ No verified data",
+                            "Minimum Loan": "-",
+                            "Maximum Loan": "-",
+                            "Interest Rate": "-",
+                            "Maximum Tenure": "-"
+                        }
+                    )
 
                 else:
 
-                    rows.append({
-                        "Bank": bank,
-                        "Available": "✅ Yes",
+                    rows.append(
+                        {
+                            "Bank": bank,
 
-                        "Minimum Loan":
-                            (
-                                f"₹{product['min_amount']:,}"
-                                if product["min_amount"]
-                                else "Check Bank"
-                            ),
+                            "Available":
+                                "✅ Yes",
 
-                        "Maximum Loan":
-                            (
-                                f"₹{product['max_amount']:,}"
-                                if product["max_amount"]
-                                else "Check Bank"
-                            ),
+                            "Minimum Loan":
+                                (
+                                    f"₹{product['min_amount']:,}"
+                                    if product["min_amount"]
+                                    else "Check Bank"
+                                ),
 
-                        "Interest Rate":
-                            (
-                                f"{product['interest_rate']}%"
-                                if product["interest_rate"]
-                                else "Check Bank"
-                            ),
+                            "Maximum Loan":
+                                (
+                                    f"₹{product['max_amount']:,}"
+                                    if product["max_amount"]
+                                    else "Check Bank"
+                                ),
 
-                        "Maximum Tenure":
-                            (
-                                f"{product['max_tenure']} years"
-                                if product["max_tenure"]
-                                else "Check Bank"
-                            )
-                    })
+                            "Interest Rate":
+                                (
+                                    f"{product['interest_rate']}%"
+                                    if product["interest_rate"]
+                                    else "Check Bank"
+                                ),
+
+                            "Maximum Tenure":
+                                (
+                                    f"{product['max_tenure']} years"
+                                    if product["max_tenure"]
+                                    else "Check Bank"
+                                )
+                        }
+                    )
 
 
             df = pd.DataFrame(rows)
 
 
             st.markdown("---")
+
+
+            st.subheader(
+                f"📊 {loan_type} Comparison"
+            )
 
 
             st.dataframe(
@@ -1990,6 +2153,11 @@ elif page == "🧮 EMI Calculator":
         st.markdown("---")
 
 
+        st.subheader(
+            "📊 EMI Result"
+        )
+
+
         c1, c2, c3 = st.columns(3)
 
 
@@ -2017,47 +2185,84 @@ elif page == "🧮 EMI Calculator":
             )
 
 
+        st.markdown(
+            html(
+                f"""
+                <div class="success-box">
+
+                    <b>Calculation Summary</b>
+
+                    <br><br>
+
+                    <b>Loan Amount:</b>
+                    ₹{amount:,}
+
+                    <br>
+
+                    <b>Interest Rate:</b>
+                    {rate}%
+
+                    <br>
+
+                    <b>Tenure:</b>
+                    {years} years
+
+                    <br>
+
+                    <b>Monthly EMI:</b>
+                    ₹{emi:,.2f}
+
+                </div>
+                """
+            ),
+            unsafe_allow_html=True
+        )
+
+
 # ==========================================================
 # FOOTER
 # ==========================================================
 
 st.markdown(
-    """
-    <div class="footer">
+    html(
+        """
+        <div class="footer">
 
-        <div style="
-            font-size:20px;
-            font-weight:800;
-            color:#0f172a;
-            margin-bottom:8px;
-        ">
-            🏦 SmartLoan India
+            <div style="
+                font-size:20px;
+                font-weight:800;
+                color:#0f172a;
+                margin-bottom:8px;
+            ">
+                🏦 SmartLoan India
+            </div>
+
+            <div style="
+                margin-bottom:10px;
+                color:#64748b;
+            ">
+                Compare • Calculate • Explore
+            </div>
+
+            <div style="
+                font-size:13px;
+                color:#94a3b8;
+            ">
+                Loan information is provided for
+                comparison and educational purposes.
+            </div>
+
+            <div style="
+                font-size:13px;
+                color:#94a3b8;
+                margin-top:5px;
+            ">
+                Always verify the latest terms with
+                the respective bank.
+            </div>
+
         </div>
-
-        <div style="
-            margin-bottom:10px;
-        ">
-            Compare • Calculate • Explore
-        </div>
-
-        <div style="
-            font-size:13px;
-            color:#94a3b8;
-        ">
-            Loan information is provided for
-            comparison and educational purposes.
-        </div>
-
-        <div style="
-            font-size:13px;
-            color:#94a3b8;
-            margin-top:5px;
-        ">
-            Always verify the latest terms with
-            the respective bank.
-        </div>
-
-    </div>
-    """,
+        """
+    ),
     unsafe_allow_html=True
 )
