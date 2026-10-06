@@ -21,8 +21,8 @@ st.set_page_config(
 # SESSION STATE
 # ==========================================================
 
-if "page" not in st.session_state:
-    st.session_state.page = "🏠 Home"
+if "navigation" not in st.session_state:
+    st.session_state.navigation = "🏠 Home"
 
 if "selected_loan" not in st.session_state:
     st.session_state.selected_loan = None
@@ -71,12 +71,11 @@ label,
 ========================================================== */
 
 [data-testid="stSidebar"] {
-    background:
-        linear-gradient(
-            180deg,
-            #030712 0%,
-            #0f172a 100%
-        );
+    background: linear-gradient(
+        180deg,
+        #030712 0%,
+        #0f172a 100%
+    );
 
     border-right: 1px solid #1e293b;
 }
@@ -167,8 +166,6 @@ label,
 ========================================================== */
 
 .loan-card {
-    position: relative;
-
     min-height: 190px;
 
     padding: 24px;
@@ -497,27 +494,29 @@ div[data-baseweb="select"] span {
 # HELPER - LOAN CARD
 # ==========================================================
 
-def show_loan_card(
-    icon,
-    title,
-    description
-):
-
-    # Card itself
-    card = (
-        '<div class="loan-card">'
-        f'<div class="loan-icon">{icon}</div>'
-        f'<div class="loan-title">{title}</div>'
-        f'<div class="loan-description">{description}</div>'
-        '</div>'
-    )
+def show_loan_card(icon, title, description):
 
     st.markdown(
-        card,
+        f"""
+        <div class="loan-card">
+
+            <div class="loan-icon">
+                {icon}
+            </div>
+
+            <div class="loan-title">
+                {title}
+            </div>
+
+            <div class="loan-description">
+                {description}
+            </div>
+
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
-    # Real clickable Streamlit button
     if st.button(
         "Explore →",
         key=f"explore_{title}",
@@ -526,7 +525,11 @@ def show_loan_card(
 
         st.session_state.selected_loan = title
 
-        st.session_state.page = "🔍 Find Loan"
+        # IMPORTANT:
+        # navigation is used instead of page because
+        # "page" was previously a Streamlit widget key.
+
+        st.session_state.navigation = "🔍 Find Loan"
 
         st.rerun()
 
@@ -542,17 +545,28 @@ def show_step(
     description
 ):
 
-    card = (
-        '<div class="step-card">'
-        f'<div class="step-number">{number}</div>'
-        f'<div class="step-icon">{icon}</div>'
-        f'<div class="step-title">{title}</div>'
-        f'<div class="step-description">{description}</div>'
-        '</div>'
-    )
-
     st.markdown(
-        card,
+        f"""
+        <div class="step-card">
+
+            <div class="step-number">
+                {number}
+            </div>
+
+            <div class="step-icon">
+                {icon}
+            </div>
+
+            <div class="step-title">
+                {title}
+            </div>
+
+            <div class="step-description">
+                {description}
+            </div>
+
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
@@ -575,30 +589,24 @@ def format_amount(value):
 
 with st.sidebar:
 
+    # Simple HTML only — avoids the previous formatting issue
     st.markdown(
-        """
-        <div style="text-align:center;">
-            <div style="font-size:42px;">
-                🏦
-            </div>
+        "<div style='text-align:center; font-size:42px;'>🏦</div>",
+        unsafe_allow_html=True
+    )
 
-            <div style="
-                font-size:22px;
-                font-weight:800;
-                color:#ffffff;
-            ">
-                SmartLoan India
-            </div>
+    st.markdown(
+        "<h2 style='text-align:center; color:white;'>"
+        "SmartLoan India"
+        "</h2>",
+        unsafe_allow_html=True
+    )
 
-            <div style="
-                font-size:12px;
-                color:#94a3b8;
-                margin-top:4px;
-            ">
-                Smart • Simple • Transparent
-            </div>
-        </div>
-        """,
+    st.markdown(
+        "<p style='text-align:center; color:#94a3b8; "
+        "font-size:12px;'>"
+        "Smart • Simple • Transparent"
+        "</p>",
         unsafe_allow_html=True
     )
 
@@ -612,7 +620,7 @@ with st.sidebar:
             "📊 Compare Loans",
             "🧮 EMI Calculator"
         ],
-        key="page"
+        key="navigation"
     )
 
     st.markdown("---")
@@ -628,10 +636,6 @@ with st.sidebar:
 # ==========================================================
 
 if page == "🏠 Home":
-
-    # ------------------------------------------------------
-    # HERO
-    # ------------------------------------------------------
 
     st.markdown(
         """
@@ -651,11 +655,6 @@ if page == "🏠 Home":
         unsafe_allow_html=True
     )
 
-
-    # ------------------------------------------------------
-    # LOAN SECTION
-    # ------------------------------------------------------
-
     st.markdown(
         """
         <div class="section-title">
@@ -668,7 +667,6 @@ if page == "🏠 Home":
     st.caption(
         "Explore loan options designed for different financial needs."
     )
-
 
     loan_cards = [
 
@@ -727,16 +725,7 @@ if page == "🏠 Home":
         )
     ]
 
-
-    # ------------------------------------------------------
-    # LOAN CARD GRID
-    # ------------------------------------------------------
-
-    for start in range(
-        0,
-        len(loan_cards),
-        3
-    ):
+    for start in range(0, len(loan_cards), 3):
 
         cols = st.columns(3)
 
@@ -755,11 +744,6 @@ if page == "🏠 Home":
                     *card_data
                 )
 
-
-    # ------------------------------------------------------
-    # HOW IT WORKS
-    # ------------------------------------------------------
-
     st.markdown("---")
 
     st.markdown(
@@ -774,7 +758,6 @@ if page == "🏠 Home":
     st.caption(
         "Get from loan selection to EMI calculation in four simple steps."
     )
-
 
     steps = [
 
@@ -807,9 +790,7 @@ if page == "🏠 Home":
         )
     ]
 
-
     cols = st.columns(4)
-
 
     for col, step in zip(
         cols,
@@ -821,11 +802,6 @@ if page == "🏠 Home":
             show_step(
                 *step
             )
-
-
-    # ------------------------------------------------------
-    # IMPORTANT NOTE
-    # ------------------------------------------------------
 
     st.markdown("---")
 
@@ -843,28 +819,15 @@ if page == "🏠 Home":
 
 elif page == "🔍 Find Loan":
 
-    st.title(
-        "🔍 Find Your Loan"
-    )
+    st.title("🔍 Find Your Loan")
 
     st.write(
         "Select a loan category and bank to explore available information."
     )
 
+    loan_types = list(LOAN_DATA.keys())
 
-    # ------------------------------------------------------
-    # LOAN TYPE
-    # ------------------------------------------------------
-
-    loan_types = list(
-        LOAN_DATA.keys()
-    )
-
-
-    if (
-        st.session_state.selected_loan
-        in loan_types
-    ):
+    if st.session_state.selected_loan in loan_types:
 
         default_index = loan_types.index(
             st.session_state.selected_loan
@@ -874,30 +837,20 @@ elif page == "🔍 Find Loan":
 
         default_index = 0
 
-
     loan_type = st.selectbox(
         "🏦 Select Loan Type",
         loan_types,
         index=default_index
     )
 
-
-    # Keep selected loan synchronized
     st.session_state.selected_loan = loan_type
-
-
-    # ------------------------------------------------------
-    # BANK
-    # ------------------------------------------------------
 
     bank = st.selectbox(
         "🏛️ Select Bank",
         BANKS
     )
 
-
     st.session_state.selected_bank = bank
-
 
     product = (
         LOAN_DATA
@@ -905,13 +858,7 @@ elif page == "🔍 Find Loan":
         .get(bank)
     )
 
-
     st.markdown("---")
-
-
-    # ======================================================
-    # NO VERIFIED PRODUCT
-    # ======================================================
 
     if product is None:
 
@@ -920,12 +867,10 @@ elif page == "🔍 Find Loan":
             f"{loan_type} information in our database."
         )
 
-
         st.info(
             "We don't invent loan limits or interest rates "
             "when they haven't been verified."
         )
-
 
         if bank in BANK_WEBSITES:
 
@@ -934,29 +879,17 @@ elif page == "🔍 Find Loan":
                 BANK_WEBSITES[bank]
             )
 
-
-    # ======================================================
-    # PRODUCT FOUND
-    # ======================================================
-
     else:
 
         st.subheader(
             f"🏦 {bank} — {loan_type}"
         )
 
-
         st.success(
             "✅ Loan product found"
         )
 
-
-        # --------------------------------------------------
-        # PRODUCT METRICS
-        # --------------------------------------------------
-
         c1, c2, c3 = st.columns(3)
-
 
         with c1:
 
@@ -967,7 +900,6 @@ elif page == "🔍 Find Loan":
                 )
             )
 
-
         with c2:
 
             st.metric(
@@ -977,39 +909,28 @@ elif page == "🔍 Find Loan":
                 )
             )
 
-
         with c3:
 
             rate = product.get(
                 "interest_rate"
             )
 
-            if rate is not None:
-
-                rate_text = f"{rate}%"
-
-            else:
-
-                rate_text = "Check Bank"
-
+            rate_text = (
+                f"{rate}%"
+                if rate is not None
+                else "Check Bank"
+            )
 
             st.metric(
                 "Interest Rate",
                 rate_text
             )
 
-
         st.markdown("---")
-
-
-        # --------------------------------------------------
-        # LOAN REQUIREMENT
-        # --------------------------------------------------
 
         st.subheader(
             "💰 Loan Requirement"
         )
-
 
         # ==================================================
         # CAR LOAN
@@ -1024,14 +945,12 @@ elif page == "🔍 Find Loan":
                 step=10000
             )
 
-
             down_payment = st.number_input(
                 "💰 Down Payment (₹)",
                 min_value=0,
                 value=200000,
                 step=10000
             )
-
 
             if down_payment > vehicle_price:
 
@@ -1041,17 +960,14 @@ elif page == "🔍 Find Loan":
 
                 st.stop()
 
-
             loan_amount = (
                 vehicle_price -
                 down_payment
             )
 
-
             st.info(
                 f"Required Loan Amount: ₹{loan_amount:,}"
             )
-
 
         # ==================================================
         # TWO-WHEELER LOAN
@@ -1066,14 +982,12 @@ elif page == "🔍 Find Loan":
                 step=5000
             )
 
-
             down_payment = st.number_input(
                 "💰 Down Payment (₹)",
                 min_value=0,
                 value=20000,
                 step=5000
             )
-
 
             if down_payment > vehicle_price:
 
@@ -1083,17 +997,14 @@ elif page == "🔍 Find Loan":
 
                 st.stop()
 
-
             loan_amount = (
                 vehicle_price -
                 down_payment
             )
 
-
             st.info(
                 f"Required Loan Amount: ₹{loan_amount:,}"
             )
-
 
         # ==================================================
         # GOLD LOAN
@@ -1108,7 +1019,6 @@ elif page == "🔍 Find Loan":
                 step=1.0
             )
 
-
             gold_purity = st.selectbox(
                 "Gold Purity",
                 [
@@ -1119,7 +1029,6 @@ elif page == "🔍 Find Loan":
                 ]
             )
 
-
             loan_amount = st.number_input(
                 "💰 Required Loan Amount (₹)",
                 min_value=10000,
@@ -1127,12 +1036,10 @@ elif page == "🔍 Find Loan":
                 step=5000
             )
 
-
             st.caption(
                 f"Gold: {gold_weight} grams | "
                 f"Purity: {gold_purity}"
             )
-
 
         # ==================================================
         # EDUCATION LOAN
@@ -1147,7 +1054,6 @@ elif page == "🔍 Find Loan":
                 step=10000
             )
 
-
             study_location = st.selectbox(
                 "Study Location",
                 [
@@ -1156,7 +1062,6 @@ elif page == "🔍 Find Loan":
                 ]
             )
 
-
             loan_amount = st.number_input(
                 "💰 Required Education Loan (₹)",
                 min_value=10000,
@@ -1164,14 +1069,12 @@ elif page == "🔍 Find Loan":
                 step=10000
             )
 
-
             if loan_amount > course_fee:
 
                 st.warning(
                     "Required loan is greater than "
                     "the entered course fee."
                 )
-
 
         # ==================================================
         # HOME LOAN
@@ -1186,14 +1089,12 @@ elif page == "🔍 Find Loan":
                 step=100000
             )
 
-
             down_payment = st.number_input(
                 "💰 Down Payment (₹)",
                 min_value=0,
                 value=1000000,
                 step=100000
             )
-
 
             if down_payment > property_value:
 
@@ -1203,17 +1104,14 @@ elif page == "🔍 Find Loan":
 
                 st.stop()
 
-
             loan_amount = (
                 property_value -
                 down_payment
             )
 
-
             st.info(
                 f"Required Home Loan: ₹{loan_amount:,}"
             )
-
 
         # ==================================================
         # OTHER LOANS
@@ -1227,24 +1125,20 @@ elif page == "🔍 Find Loan":
                 else 10000
             )
 
-
             max_amount = (
                 product.get("max_amount")
                 if product.get("max_amount") is not None
                 else 100000000
             )
 
-
             default_amount = min(
                 500000,
                 max_amount
             )
 
-
             if default_amount < min_amount:
 
                 default_amount = min_amount
-
 
             loan_amount = st.number_input(
                 "💰 Required Loan Amount (₹)",
@@ -1253,7 +1147,6 @@ elif page == "🔍 Find Loan":
                 value=default_amount,
                 step=10000
             )
-
 
         # --------------------------------------------------
         # AMOUNT VALIDATION
@@ -1267,7 +1160,6 @@ elif page == "🔍 Find Loan":
             "min_amount"
         )
 
-
         if (
             max_amount is not None
             and loan_amount > max_amount
@@ -1279,7 +1171,6 @@ elif page == "🔍 Find Loan":
             )
 
             st.stop()
-
 
         if (
             min_amount is not None
@@ -1293,7 +1184,6 @@ elif page == "🔍 Find Loan":
 
             st.stop()
 
-
         # --------------------------------------------------
         # TENURE
         # --------------------------------------------------
@@ -1302,11 +1192,9 @@ elif page == "🔍 Find Loan":
             "📅 Loan Tenure"
         )
 
-
         max_tenure = product.get(
             "max_tenure"
         )
-
 
         if max_tenure is not None:
 
@@ -1314,7 +1202,6 @@ elif page == "🔍 Find Loan":
                 1,
                 int(max_tenure)
             )
-
 
             tenure = st.slider(
                 "Select Tenure (Years)",
@@ -1335,7 +1222,6 @@ elif page == "🔍 Find Loan":
                 value=5
             )
 
-
         # --------------------------------------------------
         # INTEREST RATE
         # --------------------------------------------------
@@ -1344,13 +1230,11 @@ elif page == "🔍 Find Loan":
             "interest_rate"
         )
 
-
         if product_rate is not None:
 
             interest_rate = float(
                 product_rate
             )
-
 
             st.info(
                 f"Indicative interest rate: "
@@ -1367,16 +1251,13 @@ elif page == "🔍 Find Loan":
                 step=0.1
             )
 
-
         st.markdown("---")
-
 
         # --------------------------------------------------
         # ACTION BUTTONS
         # --------------------------------------------------
 
         b1, b2, b3 = st.columns(3)
-
 
         with b1:
 
@@ -1386,7 +1267,6 @@ elif page == "🔍 Find Loan":
                 use_container_width=True
             )
 
-
         with b2:
 
             official = st.button(
@@ -1394,14 +1274,12 @@ elif page == "🔍 Find Loan":
                 use_container_width=True
             )
 
-
         with b3:
 
             compare = st.button(
                 "📊 Add to Compare",
                 use_container_width=True
             )
-
 
         # --------------------------------------------------
         # OFFICIAL WEBSITE
@@ -1412,7 +1290,6 @@ elif page == "🔍 Find Loan":
             source_url = product.get(
                 "source_url"
             )
-
 
             if source_url:
 
@@ -1428,7 +1305,6 @@ elif page == "🔍 Find Loan":
                     BANK_WEBSITES[bank]
                 )
 
-
         # --------------------------------------------------
         # ADD TO COMPARE
         # --------------------------------------------------
@@ -1443,7 +1319,6 @@ elif page == "🔍 Find Loan":
                 f"✅ {bank} {loan_type} "
                 "selected for comparison."
             )
-
 
         # --------------------------------------------------
         # CALCULATE EMI
@@ -1467,17 +1342,13 @@ elif page == "🔍 Find Loan":
                     )
                 )
 
-
                 st.markdown("---")
-
 
                 st.subheader(
                     "📊 Estimated Loan Result"
                 )
 
-
                 r1, r2, r3 = st.columns(3)
-
 
                 with r1:
 
@@ -1486,7 +1357,6 @@ elif page == "🔍 Find Loan":
                         f"₹{emi:,.2f}"
                     )
 
-
                 with r2:
 
                     st.metric(
@@ -1494,14 +1364,12 @@ elif page == "🔍 Find Loan":
                         f"₹{total_interest:,.2f}"
                     )
 
-
                 with r3:
 
                     st.metric(
                         "Total Repayment",
                         f"₹{total_payment:,.2f}"
                     )
-
 
                 st.success(
                     f"Loan Summary: {bank} | "
@@ -1511,9 +1379,7 @@ elif page == "🔍 Find Loan":
                     f"{tenure} years"
                 )
 
-
         st.markdown("---")
-
 
         st.caption(
             f"Information source: "
@@ -1531,18 +1397,15 @@ elif page == "📊 Compare Loans":
         "📊 Compare Loans"
     )
 
-
     st.write(
         "Select a loan type and multiple banks "
         "to compare available information."
     )
 
-
     loan_type = st.selectbox(
         "🏦 Loan Type",
         list(LOAN_DATA.keys())
     )
-
 
     selected_banks = st.multiselect(
         "🏛️ Select Banks",
@@ -1553,7 +1416,6 @@ elif page == "📊 Compare Loans":
             "ICICI Bank"
         ]
     )
-
 
     if st.button(
         "📊 Compare Now",
@@ -1571,7 +1433,6 @@ elif page == "📊 Compare Loans":
 
             rows = []
 
-
             for bank in selected_banks:
 
                 product = (
@@ -1579,7 +1440,6 @@ elif page == "📊 Compare Loans":
                     .get(loan_type, {})
                     .get(bank)
                 )
-
 
                 if product is None:
 
@@ -1600,11 +1460,9 @@ elif page == "📊 Compare Loans":
                         "interest_rate"
                     )
 
-
                     max_tenure = product.get(
                         "max_tenure"
                     )
-
 
                     rows.append(
                         {
@@ -1638,19 +1496,15 @@ elif page == "📊 Compare Loans":
                         }
                     )
 
-
             df = pd.DataFrame(
                 rows
             )
 
-
             st.markdown("---")
-
 
             st.subheader(
                 f"📊 {loan_type} Comparison"
             )
-
 
             st.dataframe(
                 df,
@@ -1669,11 +1523,9 @@ elif page == "🧮 EMI Calculator":
         "🧮 EMI Calculator"
     )
 
-
     st.write(
         "Calculate your estimated monthly loan EMI."
     )
-
 
     amount = st.number_input(
         "💰 Loan Amount (₹)",
@@ -1683,7 +1535,6 @@ elif page == "🧮 EMI Calculator":
         step=10000
     )
 
-
     rate = st.number_input(
         "📈 Interest Rate (%)",
         min_value=0.0,
@@ -1692,14 +1543,12 @@ elif page == "🧮 EMI Calculator":
         step=0.1
     )
 
-
     years = st.slider(
         "📅 Tenure",
         min_value=1,
         max_value=30,
         value=5
     )
-
 
     if st.button(
         "🧮 Calculate EMI",
@@ -1713,17 +1562,13 @@ elif page == "🧮 EMI Calculator":
             years
         )
 
-
         st.markdown("---")
-
 
         st.subheader(
             "📊 EMI Result"
         )
 
-
         c1, c2, c3 = st.columns(3)
-
 
         with c1:
 
@@ -1732,7 +1577,6 @@ elif page == "🧮 EMI Calculator":
                 f"₹{emi:,.2f}"
             )
 
-
         with c2:
 
             st.metric(
@@ -1740,14 +1584,12 @@ elif page == "🧮 EMI Calculator":
                 f"₹{interest:,.2f}"
             )
 
-
         with c3:
 
             st.metric(
                 "Total Repayment",
                 f"₹{total:,.2f}"
             )
-
 
         st.success(
             f"Calculation complete — "
